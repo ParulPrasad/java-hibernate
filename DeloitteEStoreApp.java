@@ -1,100 +1,75 @@
 package com.deloitte.estore.application;
 import java.util.*;
+  
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.omg.Messaging.SyncScopeHelper;
 
+
 import com.deloitte.estore.model.Product;
+import com.deloitte.estore.repo.ProductRepoImpl;
 import com.deloitte.estore.service.ProductService;
 import com.deloitte.estore.service.ProductServiceImpl;
 
 public class DeloitteEStoreApp {
 
-	public static void main(String[] args) {
-		ProductService service=new ProductServiceImpl();
-		Product p=new Product();
+	public static void main(String[] args) throws Exception {
+		
+		 //SessionFactory sf=new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Product.class).buildSessionFactory();
+		 //Product product=new Product(1265,"tv",50000);
+		 //Session ssn=sf.openSession();
+         //Transaction tx=ssn.beginTransaction();
+       //  Product product=ssn.get(Product.class,9 );
+       //  System.out.println(product);
+        // Query q=ssn.createQuery("from Product");
+        // List<Product> prod=q.getResultList();
+         //prod.forEach(System.out::println);
+         //tx.commit();
+		 //ssn.close();
+		ProductRepoImpl repo=new ProductRepoImpl();
+		Product p=new Product(1,"xy",400);
 		System.out.println("1->Add Product\n2->Delete Product\n3->Update Product\n4->Get Prod By ID\n5->Get All Prod");
 		Scanner in=new Scanner(System.in);
 		int c=in.nextInt();
 		switch(c) {
 		case 1:{
-		try {
-			System.out.println("enter product_id,product_name,price:");
-			int r=in.nextInt();
-			String str=in.next();
-			float pr=in.nextFloat();
-			p.setProductId(r);
-			p.setProductName(str);
-			p.setPrice(pr);
-			if(service.addProduct(p))
-				System.out.println("product added...");
-			else
-				System.out.println("not added...");
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		p=new Product(10,"cpu",4000);
+		if(repo.addProduct(p))
+			System.out.println("done");
+		else
+			System.out.println("not done");
 		break;
-		}
+		}	
 		case 2:{
-		System.out.println("enter product_id to be deleted:");
-		int r=in.nextInt();
-		p.setProductId(r);
-		try {
-			if(service.deleteProduct(p))
-				System.out.println("deleted...");
-			else
-				System.out.println("not deleted...");
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		break;
+		   p.setProductId(10);
+		   if(repo.deleteProduct(p))
+			   System.out.println("deleted");
+		   else
+			   System.out.println("not deleted");
+		   break;
 		}
 		case 3:{
-			try {
-				System.out.println("enter product_id:");
-				int r=in.nextInt();
-				System.out.println("enter new product_name:");
-				String str=in.next();
-				p.setProductName(str);
-				p.setProductId(r);
-				if(service.updateProduct(p))
-					System.out.println("updated...");
-				else
-					System.out.println("not updated...");
-				
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
+			p.setProductId(9);
+			p.setProductName("Mobile");
+			if(repo.updateProduct(p))
+				System.out.println("updated");
+			else
+				System.out.println("not updated");
 			break;
 		}
 		case 4:{
-			try {
-				System.out.println("enter product_id:");
-				int r=in.nextInt();
-				Product rslt=service.getProductById(r);
-				System.out.println("product_name:"+rslt.getProductName()+" price:"+rslt.getPrice());
-				
-			}
-			catch(Exception e){e.printStackTrace();}
-			break;
+			p=repo.getProductById(9);
+				System.out.println(p);
+				break;
 		}
 		case 5:{
-			try {
-				List<Product> pList=new ArrayList<>();
-				pList=service.getAllProducts();
-				//System.out.println(pList);
-				pList.forEach(System.out::println);
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-			break;
+			System.out.println(repo.getAllProducts());
 		}
-		default:System.out.println("invalid input");
 		}
-
 	}
 
 }
