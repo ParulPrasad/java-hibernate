@@ -1,3 +1,4 @@
+
 package com.deloitee.inheritance;
 
 import javax.persistence.DiscriminatorColumn;
@@ -7,6 +8,8 @@ import javax.persistence.Inheritance;
 
 @Entity
 @Inheritance
+// @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)    ....used for table per class inheritance and will give as many tables as are classes i.e 2 tables
+// @Inheritance(strategy=InheritanceType.JOINED)             ....used for table with joined strategy and gives 3 tables,1 for mapping and the other 2 for classes
 @DiscriminatorColumn(name="Job_Role")
 public class Employee {
  @Id
