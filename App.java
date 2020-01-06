@@ -27,6 +27,8 @@ public class App {
 		dc.setTestTech("Selenium");
 		
 		Session ssn=sf.openSession();
+	      // SysEngg se=ssn.get(SysEngg.class, 102);    .....fetch value of obj as per id
+	      // System.out.println(se);
 		Transaction tx=ssn.beginTransaction();
 		ssn.save(se);
 		ssn.save(dc);
